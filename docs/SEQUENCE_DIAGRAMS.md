@@ -2,27 +2,27 @@
 
 ## Channel Lifecycle
 ```plantuml
-@startuml Channel Lifecycle
-participant "User A" as A
-participant "Node" as N
-participant "User B" as B
+    @startuml Channel Lifecycle
+    participant "User A" as A
+    participant "Node" as N
+    participant "User B" as B
 
-A -> N: open_channel(B_pub, funding_utxo)
-N -> B: channel_open_request
-B -> N: channel_open_ack
-N -> A: channel_id
+    A -> N: open_channel(B_pub, funding_utxo)
+    N -> B: channel_open_request
+    B -> N: channel_open_ack
+    N -> A: channel_id
 
-loop While open
-A -> N: update_channel(tx_signed)
-N -> B: tx_validation_request
-B -> N: tx_validation_ack
-N -> A: state_update_confirmation
-end
+    loop While open
+    A -> N: update_channel(tx_signed)
+    N -> B: tx_validation_request
+    B -> N: tx_validation_ack
+    N -> A: state_update_confirmation
+    end
 
-A -> N: close_channel()
-N -> B: settlement_proposal
-B -> N: settlement_ack
-N -> Blockchain: settle_tx
+    A -> N: close_channel()
+    N -> B: settlement_proposal
+    B -> N: settlement_ack
+    N -> Blockchain: settle_tx
 @enduml
 ```
 
