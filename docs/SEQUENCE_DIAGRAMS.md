@@ -40,3 +40,18 @@ N -> M: slash_funds
 N -> H: disputed_funds
 @enduml
 ```
+
+## State Update Flow
+```plantuml
+@startuml State Update Flow
+actor Initiator
+participant "Channel Node" as Node
+actor Participant
+
+Initiator -> Node: update_channel(tx_signed_v2)
+Node -> Participant: push_notification(tx_v2)
+Participant -> Node: ack_signature(sig_v2)
+Node -> Node: Apply state transition
+Node -> Initiator: confirmation(v2)
+@enduml
+```
