@@ -22,10 +22,17 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct Transaction {
-    sender: String,
-    receiver: String,
+    inputs: Vec<UTXO>,    // UTXOs being spent
+    outputs: Vec<UTXO>,   // New UTXOs created
+    signature: Vec<u8>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
+struct UTXO {
+    tx_hash: Vec<u8>,     // Hash of previous transaction
+    index: u32,           // Output index in previous transaction
+    owner: Vec<u8>,       // Public key of owner
     amount: u64,
-    signature: Vec<u8>,  // Digital signature for validation
 }
 ```
 - Use `serde` to serialize transactions.
@@ -50,8 +57,11 @@ fn sign_transaction(tx: &Transaction, keypair: &Keypair) -> Signature {
     keypair.sign(&bincode::serialize(tx).unwrap())
 }
 
-fn verify_signature(tx: &Transaction, signature: &Signature, public_key: &PublicKey) -> bool {
-    public_key.verify(&bincode::serialize(tx).unwrap(), signature).is_ok()
+fn verify_transaction(tx: &Transaction, public_key: &PublicKey) -> bool {
+    let tx_data = bincode::serialize(&(&tx.inputs, &tx.outputs)).unwrap();
+    let signature = Signature::from_bytes(&tx.signature).unwrap();
+    
+    public_key.verify(&tx_data, &signature).is_ok()
 }
 ```
 - The sender signs a transaction using their private key.
@@ -69,33 +79,52 @@ A payment channel allows off-chain transactions to happen instantly.
 
 ```rust
 struct PaymentChannel {
-    pub initiator: String,
-    pub participant: String,
-    pub balance_initiator: u64,
-    pub balance_participant: u64,
-    pub transactions: Vec<Transaction>,
+    initiator_public: Vec<u8>,    // Ed25519 public key
+    participant_public: Vec<u8>,  // Ed25519 public key
+    utxos: Vec<UTXO>,             // Current unspent outputs
+    spent_utxos: Vec<UTXO>,       // Spent outputs (for dispute resolution)
+    channel_id: Vec<u8>,          // Unique channel identifier
 }
 
 impl PaymentChannel {
-    pub fn new(initiator: String, participant: String, initial_balance: u64) -> Self {
+    pub fn new(initiator_pub: Vec<u8>, participant_pub: Vec<u8>, initial_utxo: UTXO) -> Self {
+        // Validate initial funding transaction
+        assert!(initial_utxo.owner == initiator_pub, "Initial UTXO must belong to initiator");
+        
         Self {
-            initiator,
-            participant,
-            balance_initiator: initial_balance,
-            balance_participant: 0,
-            transactions: vec![],
+            initiator_public: initiator_pub,
+            participant_public: participant_pub,
+            utxos: vec![initial_utxo],
+            spent_utxos: vec![],
+            channel_id: hash(&[&initiator_pub, &participant_pub]),
         }
     }
 
-    pub fn update_balance(&mut self, amount: u64, signature: Vec<u8>) {
-        self.transactions.push(Transaction {
-            sender: self.initiator.clone(),
-            receiver: self.participant.clone(),
-            amount,
-            signature,
-        });
-        self.balance_initiator -= amount;
-        self.balance_participant += amount;
+    pub fn create_transaction(&mut self, inputs: Vec<UTXO>, outputs: Vec<UTXO>, signature: Vec<u8>) {
+        // Verify inputs are valid and unspent
+        for input in &inputs {
+            assert!(self.utxos.contains(input), "Invalid UTXO input");
+        }
+        
+        // Verify cryptographic signature
+        let tx_data = bincode::serialize(&(&inputs, &outputs)).unwrap();
+        let public_key = PublicKey::from_bytes(&self.initiator_public).unwrap();
+        let signature = Signature::from_bytes(&signature).unwrap();
+        
+        assert!(
+            public_key.verify(&tx_data, &signature).is_ok(),
+            "Invalid transaction signature"
+        );
+
+        // Move inputs to spent, add new outputs
+        self.spent_utxos.extend(inputs.iter().cloned());
+        self.utxos.retain(|u| !inputs.contains(u));
+        self.utxos.extend(outputs);
+    }
+
+    pub fn settle_channel(&self) -> Vec<UTXO> {
+        // In real implementation, this would create an on-chain settlement tx
+        self.utxos.clone()
     }
 }
 ```
@@ -107,11 +136,6 @@ impl PaymentChannel {
 When the payment channel closes, the last valid transaction should be recorded on-chain.
 
 ```rust
-fn settle_channel(channel: &PaymentChannel) -> Transaction {
-    let last_tx = channel.transactions.last().unwrap().clone();
-    println!("Settling channel with final transaction: {:?}", last_tx);
-    last_tx
-}
 ```
 - If a user tries to cheat by broadcasting an old state, penalties can be added to incentivize honest behavior.
 
