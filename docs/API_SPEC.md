@@ -6,6 +6,14 @@
 async fn batch_update(channels: Vec<(&[u8], Transaction)>) -> Result<(), ChannelError>;
 ```
 
+## Error Codes
+| Error Code           | Description                     |
+|----------------------|---------------------------------|
+| `INVALID_ANCESTRY`   | TX doesn't reference valid UTXO |
+| `DISPUTE_TIMEOUT`    | Dispute period expired          |
+| `CHANNEL_EXHAUSTED`  | No remaining UTXOs for updates  |
+| `INVALID_TIMELOCK`   | Locktime constraints violated   |
+
 # Timelock Rules
 All transactions must include:
 ```rust
