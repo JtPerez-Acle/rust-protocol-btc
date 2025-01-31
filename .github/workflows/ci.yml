@@ -29,6 +29,9 @@ jobs:
     - name: Lint with Clippy
       run: cargo clippy --all-targets --all-features -- -D warnings
       
+    - name: Install RocksDB Dependencies
+      run: sudo apt-get update && sudo apt-get install -y clang libclang-dev librocksdb-dev
+
     - name: Build
       run: cargo build --verbose
       
