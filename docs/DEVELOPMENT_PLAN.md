@@ -19,7 +19,7 @@
 - [x] Basic UTXO structure
   - [x] Transaction input/output models
   - [x] Serialization/deserialization
-  - [ ] UTXO set management
+  - [x] UTXO set management
 - [ ] State Management
   - [ ] In-memory UTXO tracking
   - [ ] Merkle tree implementation

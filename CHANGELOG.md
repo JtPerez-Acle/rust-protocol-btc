@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Initial development plan in docs/DEVELOPMENT_PLAN.md
+- Basic in-memory UTXO set management
+- UTXO storage error handling
 - CHANGELOG.md file for tracking project changes
 - Rust project structure with cargo initialization
 - Core dependencies: Tokio, ed25519-dalek, RocksDB
