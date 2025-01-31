@@ -1,4 +1,4 @@
-use crate::utxo::models::{Output, Transaction, H256};
+use crate::utxo::models::{Input, Output, Transaction, H256};
 use std::collections::HashMap;
 use thiserror::Error;
 
