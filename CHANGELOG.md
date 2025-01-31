@@ -8,9 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial development plan in docs/DEVELOPMENT_PLAN.md
 - CHANGELOG.md file for tracking project changes
+- Rust project structure with cargo initialization
+- Core dependencies: Tokio, ed25519-dalek, RocksDB
 
 ### Changed
 - Project structure initialized based on development plan
+- Updated development plan with completed initial setup tasks
 
 ## [0.1.0] - 2025-01-31
 ### Added

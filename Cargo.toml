@@ -1,0 +1,9 @@
+[package]
+name = "state_channel_node"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.0", features = ["full"] }
+ed25519-dalek = "2.0"
+rocksdb = "0.21"

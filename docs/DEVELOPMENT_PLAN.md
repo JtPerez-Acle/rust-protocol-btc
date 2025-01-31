@@ -10,16 +10,10 @@
 ## Core Components Development
 
 ### 1. Project Setup
-- [ ] Initialize Rust project with cargo
+- [x] Initialize Rust project with cargo
 - [ ] Set up development environment
 - [ ] Configure CI/CD pipeline
-- [ ] Add initial dependencies
-  ```toml
-  [dependencies]
-  tokio = "1.0"
-  ed25519-dalek = "2.0"
-  rocksdb = "0.21"
-  ```
+- [x] Add initial dependencies
 
 ### 2. UTXO Management
 - [ ] Basic UTXO structure
