@@ -11,8 +11,8 @@
 
 ### 1. Project Setup
 - [x] Initialize Rust project with cargo
-- [ ] Set up development environment
-- [ ] Configure CI/CD pipeline
+- [x] Set up development environment
+- [x] Configure CI/CD pipeline
 - [x] Add initial dependencies
 
 ### 2. UTXO Management

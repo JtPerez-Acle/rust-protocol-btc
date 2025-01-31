@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG.md file for tracking project changes
 - Rust project structure with cargo initialization
 - Core dependencies: Tokio, ed25519-dalek, RocksDB
+- Development toolchain (rustfmt, clippy)
+- GitHub Actions CI/CD pipeline
+- Development build profile configuration
 
 ### Changed
 - Project structure initialized based on development plan
