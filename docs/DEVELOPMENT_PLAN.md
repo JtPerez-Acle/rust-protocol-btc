@@ -16,9 +16,9 @@
 - [x] Add initial dependencies
 
 ### 2. UTXO Management
-- [ ] Basic UTXO structure
-  - [ ] Transaction input/output models
-  - [ ] Serialization/deserialization
+- [x] Basic UTXO structure
+  - [x] Transaction input/output models
+  - [x] Serialization/deserialization
   - [ ] UTXO set management
 - [ ] State Management
   - [ ] In-memory UTXO tracking
