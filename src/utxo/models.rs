@@ -10,10 +10,17 @@ pub struct Transaction {
     pub hash: H256,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+/// Represents a transaction input that spends an existing UTXO
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Hash)]
 pub struct Input {
+    /// Hash of the previous transaction containing the output being spent
     pub previous_output: H256,
+    /// Index of the output in the previous transaction (0-based)
+    pub index: u32,
+    /// Cryptographic signature proving ownership of the UTXO
+    #[serde(with = "hex")]
     pub signature: Vec<u8>,
+    /// Sequence number for relative timelock (BIP68)
     pub sequence: u32,
 }
 

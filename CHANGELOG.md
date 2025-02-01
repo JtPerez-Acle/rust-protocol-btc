@@ -10,17 +10,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic in-memory UTXO set management
 - UTXO storage error handling
 - CHANGELOG.md file for tracking project changes
-- Rust project structure with cargo initialization
+- SdbStore implementation for UTXO persistence
+- Documentation comments for transaction models
+- Enhanced Input struct with BIP68 sequence numbers and hex serialization
+
+### Changed
+- Updated Input struct with index field and documentation
+- Improved UTXO storage error handling patterns
+- Consolidated changelog entries for better readability
+- Project structure initialized based on development plan
+- Updated development plan with completed initial setup tasks
 - Core dependencies: Tokio, ed25519-dalek, RocksDB
 - Basic UTXO transaction models (Input, Output, Transaction)
 - Serialization support with serde
 - Development toolchain (rustfmt, clippy)
 - GitHub Actions CI/CD pipeline
-- Development build profile configuration
-
-### Changed
-- Project structure initialized based on development plan
-- Updated development plan with completed initial setup tasks
 
 ## [0.1.0] - 2025-01-31
 ### Added
