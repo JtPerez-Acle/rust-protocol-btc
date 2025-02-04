@@ -5,7 +5,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.1.0] - 2025-02-03
 ### Added
+- Comprehensive integration test suite
+  - UTXO transaction flow testing
+  - Double-spend prevention verification
+  - Complex transaction chain scenarios
+  - Unconfirmed transaction handling
+  - Merkle tree proof verification
+  - Test utilities and factories
+- Merkle tree implementation for state verification
+  - Efficient proof generation and verification
+  - Support for dynamic tree updates
+  - Comprehensive test coverage
+- In-memory UTXO cache implementation with thread-safe access
+- UTXO model with confirmation tracking
+- Proper transaction hashing using Keccak256
 - Initial development plan in docs/DEVELOPMENT_PLAN.md
 - Basic in-memory UTXO set management
 - UTXO storage error handling
@@ -15,6 +31,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced Input struct with BIP68 sequence numbers and hex serialization
 
 ### Changed
+- Fixed UTXO storage implementation bugs:
+  - Added missing hex and bincode dependencies
+  - Corrected is_empty() implementation in SdbStore
+  - Added double-spend prevention in UTXO cache
+  - Fixed UTXO existence checks before spending
+- Fixed Merkle tree implementation:
+  - Corrected proof generation for odd-sized trees
+  - Fixed hash ordering in proof verification
+  - Added proper handling of single-leaf trees
+  - Fixed level size tracking in proof generation
 - Updated Input struct with index field and documentation
 - Improved UTXO storage error handling patterns
 - Consolidated changelog entries for better readability
@@ -37,7 +63,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cryptographic implementation guidelines added
 
 ---
-[Unreleased]: https://github.com/your-org/your-repo/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/your-org/your-repo/releases/tag/v0.1.0
-
-*Note: Update "your-org/your-repo" with actual repository URL*
+[Unreleased]
+[0.1.0]

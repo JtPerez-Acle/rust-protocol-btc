@@ -35,9 +35,9 @@ impl SdbStore {
     /// * `path` - Filesystem path for database storage
     /// 
     /// # Example
-    /// ```
+    /// ```no_run
     /// use std::path::Path;
-    /// use rust_protocol_btc::utxo::store::SdbStore;
+    /// use state_channel_node::utxo::store::SdbStore;
     /// 
     /// let store = SdbStore::new(Path::new("./utxo-db")).unwrap();
     /// ```
@@ -107,8 +107,7 @@ impl SdbStore {
 
     /// Check if UTXO set is empty
     pub fn is_empty(&self) -> Result<bool, StoreError> {
-        self.db.is_empty()
-            .map_err(|e| StoreError::StorageError(e.to_string()))
+        Ok(self.db.len() == 0)
     }
 
     /// Generic serialization helper with unified error handling

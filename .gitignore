@@ -1,3 +1,4 @@
 .aider*
 .env
 target/*
+test_db/*
