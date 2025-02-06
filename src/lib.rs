@@ -4,4 +4,6 @@ pub mod utxo {
     pub mod cache;
 }
 
+pub mod channel;
+pub mod crypto;
 pub mod merkle;
